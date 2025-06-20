@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Palindrome Detective</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/umd/lucide.js"></script>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Header -->
+    <div class="bg-white border-b">
+        <div class="max-w-7xl mx-auto px-6 py-8">
+            <h1 class="text-3xl font-bold text-gray-900 text-center">Palindrome</h1>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="max-w-6xl mx-auto p-6">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <!-- Left Panel - Input and Results -->
+            <div class="bg-white border rounded-lg p-6">
+                <h2 class="text-xl font-semibold text-gray-900 mb-6">Palindrome Checker</h2>
+                
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                        Enter String (letters and digits only)
+                    </label>
+                    <input 
+                        type="text" 
+                        id="inputString" 
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                        placeholder="e.g., abc123cba, racecar, 12321..."
+                        autocomplete="off"
+                    >
+                </div>
+
+                <div class="flex gap-3 mb-6">
+                    <button 
+                        onclick="checkPalindrome()" 
+                        class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
+                    >
+                        Check Now
+                    </button>
+                    <button 
+                        onclick="clearInput()" 
+                        class="bg-gray-100 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-200"
+                    >
+                        Clear
+                    </button>
+                </div>
+
+                <!-- Result Area -->
+                <div id="resultArea" class="min-h-[400px] bg-gray-50 border rounded-md p-4">
+                    <div class="text-center py-16 text-gray-500">
+                        <p>Enter a string above and click "Check Now" to see the analysis</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Panel - Stats and History -->
+            <div class="bg-white border rounded-lg p-6">
+                <h2 class="text-xl font-semibold text-gray-900 mb-6">Statistics & History</h2>
+
+                <!-- Stats Grid -->
+                <div class="grid grid-cols-3 gap-4 mb-6">
+                    <div class="bg-blue-50 border border-blue-200 p-3 rounded text-center">
+                        <div class="text-2xl font-bold text-blue-600" id="totalChecks">0</div>
+                        <div class="text-sm text-blue-600">Total</div>
+                    </div>
+                    <div class="bg-green-50 border border-green-200 p-3 rounded text-center">
+                        <div class="text-2xl font-bold text-green-600" id="palindromeCount">0</div>
+                        <div class="text-sm text-green-600">Palindromes</div>
+                    </div>
+                    <div class="bg-gray-50 border border-gray-200 p-3 rounded text-center">
+                        <div class="text-2xl font-bold text-gray-600" id="successRate">0%</div>
+                        <div class="text-sm text-gray-600">Rate</div>
+                    </div>
+                </div>
+
+                <!-- History Header -->
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-lg font-medium text-gray-900">Recent History</h3>
+                    <button 
+                        onclick="clearHistory()" 
+                        class="text-sm text-red-600 hover:text-red-800"
+                    >
+                        Clear All
+                    </button>
+                </div>
+
+                <!-- History Area -->
+                <div id="historyArea" class="max-h-80 overflow-y-auto space-y-2">
+                    <div class="text-center py-16 text-gray-500">
+                        <p>No history yet. Start checking some palindromes!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
