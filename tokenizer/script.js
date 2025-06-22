@@ -1,6 +1,7 @@
 const reservedWords = new Set([
   "var", "let", "const", "if", "else", "for", "while", "function", "return",
-  "true", "false", "null", "undefined", "break", "continue", "switch", "case", "default"
+  "true", "false", "null", "undefined", "break", "continue", "switch", "case", "default",
+  "class", "import", "export", "new", "try", "catch", "throw", "await", "async"
 ]);
 
 let history = [];
@@ -18,15 +19,21 @@ function tokenizeCode() {
     math: []
   };
 
-  const mathSentences = code.match(/[^;{}]*[=+\-*/%^]+[^;{}]*;/g) || [];
+  const mathSentences = code
+    .split('\n')
+    .filter(line => /[=+\-*/%^<>!&|]+/.test(line));
   categories.math = [...new Set(mathSentences.map(s => s.trim()))];
 
   tokens.forEach(token => {
     if (reservedWords.has(token)) {
       categories.reserved.push(token);
-    } else if (/^[=+\-*/%^;{}()[\],.]$/.test(token)) {
+    } else if (/^[(){}\[\],.;:]$/.test(token)) {
       categories.symbols.push(token);
-    } else if (!/\d+/.test(token)) {
+    } else if (
+      /^[a-zA-Z_]\w*$/.test(token) &&
+      !reservedWords.has(token) &&
+      isNaN(token)
+    ) {
       categories.variables.push(token);
     }
   });
@@ -34,16 +41,14 @@ function tokenizeCode() {
   const resultArea = document.getElementById("resultArea");
   resultArea.innerHTML = `
     ${generateCard("Reserved Words", categories.reserved, "blue")}
-    ${generateCard("Simbol & Tanda Baca", categories.symbols, "green")}
-    ${generateCard("Variabel", categories.variables, "yellow")}
-    ${generateCard("Kalimat Matematika", categories.math, "purple", true)}
+    ${generateCard("Symbols & Punctuation", categories.symbols, "green")}
+    ${generateCard("Variables", categories.variables, "yellow")}
+    ${generateCard("Math Sentences", categories.math, "purple", true)}
   `;
 
-  // Update Statistik
   document.getElementById("tokenCount").textContent = tokens.length;
   document.getElementById("variableCount").textContent = categories.variables.length;
 
-  // Update History
   history.unshift(code);
   updateHistory();
 }
