@@ -1,8 +1,0 @@
-.token-item {
-    transition: all 0.2s ease;
-    cursor: pointer;
-}
-
-.token-item:hover {
-    transform: translateY(-1px);
-}

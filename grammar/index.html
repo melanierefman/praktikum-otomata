@@ -1,126 +1,92 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lexical Analyzer - Code Tokenizer</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="./styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tokenizer Program</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
 </head>
-<body class="bg-gray-50 min-h-screen">
-    <div class="container mx-auto px-4 py-8 max-w-6xl">
-        <!-- Header -->
-        <div class="text-center mb-8">
-            <h1 class="text-4xl font-bold text-gray-800 mb-2">
-                🔍 Lexical Analyzer
-            </h1>
-            <p class="text-gray-600">Analisis dan tokenisasi kode program dengan mudah</p>
-        </div>
-
-        <!-- Input Section -->
-        <div class="bg-white rounded-lg shadow-md p-6 mb-8">
-            <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
-                <span class="mr-2">📝</span>
-                Input Kode Program
-            </h2>
-            <textarea 
-                id="codeInput" 
-                placeholder="Masukkan kode program di sini... (JavaScript, Python, C++, dll)"
-                class="w-full h-64 bg-gray-100 text-gray-800 rounded-lg p-4 border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 font-mono text-sm resize-none"
-            >function palindrome(str) {
-    let cleanStr = str.toLowerCase().replace(/[^a-z0-9]/g, '');
-    let reversed = cleanStr.split('').reverse().join('');
-    return cleanStr === reversed;
-}
-
-let result = palindrome("A man a plan a canal Panama");
-console.log(result);</textarea>
-            
-            <div class="flex gap-3 mt-4">
-                <button 
-                    id="analyzeBtn" 
-                    class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium transition-colors"
-                >
-                    🚀 Analisis Kode
-                </button>
-                <button 
-                    id="clearBtn" 
-                    class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg font-medium transition-colors"
-                >
-                    🗑️ Bersihkan
-                </button>
-                <button 
-                    id="exampleBtn" 
-                    class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-medium transition-colors"
-                >
-                    📄 Contoh Kode
-                </button>
-            </div>
-        </div>
-
-        <!-- Results Section -->
-        <div id="resultsSection" class="hidden">
-            <!-- Statistics -->
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-                <div class="bg-blue-100 border border-blue-200 rounded-lg p-4 text-center">
-                    <div class="text-2xl font-bold text-blue-800" id="totalTokens">0</div>
-                    <div class="text-blue-600 text-sm">Total Token</div>
-                </div>
-                <div class="bg-purple-100 border border-purple-200 rounded-lg p-4 text-center">
-                    <div class="text-2xl font-bold text-purple-800" id="reservedCount">0</div>
-                    <div class="text-purple-600 text-sm">Reserved Words</div>
-                </div>
-                <div class="bg-green-100 border border-green-200 rounded-lg p-4 text-center">
-                    <div class="text-2xl font-bold text-green-800" id="variableCount">0</div>
-                    <div class="text-green-600 text-sm">Variabel</div>
-                </div>
-                <div class="bg-orange-100 border border-orange-200 rounded-lg p-4 text-center">
-                    <div class="text-2xl font-bold text-orange-800" id="symbolCount">0</div>
-                    <div class="text-orange-600 text-sm">Simbol</div>
-                </div>
-            </div>
-
-            <!-- Token Groups -->
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <!-- Reserved Words -->
-                <div class="bg-white rounded-lg shadow-md p-6">
-                    <h3 class="text-lg font-semibold text-purple-700 mb-4 flex items-center">
-                        <span class="mr-2">🔒</span>
-                        Reserved Words
-                    </h3>
-                    <div id="reservedWords" class="flex flex-wrap gap-2"></div>
-                </div>
-
-                <!-- Symbols -->
-                <div class="bg-white rounded-lg shadow-md p-6">
-                    <h3 class="text-lg font-semibold text-orange-700 mb-4 flex items-center">
-                        <span class="mr-2">⚡</span>
-                        Simbol & Tanda Baca
-                    </h3>
-                    <div id="symbols" class="flex flex-wrap gap-2"></div>
-                </div>
-
-                <!-- Variables -->
-                <div class="bg-white rounded-lg shadow-md p-6">
-                    <h3 class="text-lg font-semibold text-green-700 mb-4 flex items-center">
-                        <span class="mr-2">📦</span>
-                        Variabel & Identifier
-                    </h3>
-                    <div id="variables" class="flex flex-wrap gap-2"></div>
-                </div>
-
-                <!-- Math Expressions -->
-                <div class="bg-white rounded-lg shadow-md p-6">
-                    <h3 class="text-lg font-semibold text-blue-700 mb-4 flex items-center">
-                        <span class="mr-2">🧮</span>
-                        Ekspresi Matematika
-                    </h3>
-                    <div id="mathExpressions" class="flex flex-wrap gap-2"></div>
-                </div>
-            </div>
-        </div>
+<body class="bg-gray-50 font-sans min-h-screen">
+  <!-- Header -->
+  <div class="bg-white border-b shadow-sm">
+    <div class="max-w-7xl mx-auto px-6 py-8">
+      <h1 class="text-3xl font-bold text-gray-900 text-center">Tokenizer Program</h1>
     </div>
+  </div>
 
-    <script src="./script.js"></script>
+  <!-- Main Container -->
+  <div class="max-w-6xl mx-auto p-6">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <!-- Left Panel - Input and Output -->
+      <div class="bg-white border rounded-lg p-6">
+        <h2 class="text-xl font-semibold text-gray-900 mb-6">Input Kode Program</h2>
+        
+        <textarea id="codeInput" rows="10" placeholder="Tulis kode JS di sini..."
+          class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 font-mono text-sm mb-4 resize-y"></textarea>
+        
+        <div class="flex gap-3 mb-6">
+          <button onclick="tokenizeCode()"
+            class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">
+            Tokenize
+          </button>
+          <button onclick="clearInput()"
+            class="bg-gray-100 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-200">
+            Clear
+          </button>
+        </div>
+
+        <!-- Token Result Output -->
+        <div id="resultArea" class="min-h-[300px] bg-gray-50 border rounded-md p-4 space-y-4">
+          <div class="text-center text-gray-500 py-10">
+            <p>Masukkan kode dan klik "Tokenize" untuk melihat hasil.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Panel - Stats and History -->
+      <div class="bg-white border rounded-lg p-6">
+        <h2 class="text-xl font-semibold text-gray-900 mb-6">Statistik & History</h2>
+
+        <div class="grid grid-cols-2 gap-4 mb-6">
+          <div class="bg-blue-50 border border-blue-200 p-3 rounded text-center">
+            <div class="text-2xl font-bold text-blue-600" id="tokenCount">0</div>
+            <div class="text-sm text-blue-600">Total Tokens</div>
+          </div>
+          <div class="bg-green-50 border border-green-200 p-3 rounded text-center">
+            <div class="text-2xl font-bold text-green-600" id="variableCount">0</div>
+            <div class="text-sm text-green-600">Variables</div>
+          </div>
+        </div>
+
+        <div class="flex justify-between items-center mb-4">
+          <h3 class="text-lg font-medium text-gray-900">History</h3>
+          <button onclick="clearHistory()"
+            class="text-sm text-red-600 hover:text-red-800">
+            Clear All
+          </button>
+        </div>
+
+        <div id="historyArea" class="max-h-80 overflow-y-auto space-y-2 text-sm font-mono text-gray-700">
+          <div class="text-center py-10 text-gray-400">
+            Belum ada history.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>
